@@ -21,7 +21,7 @@ TEST_CASE("template bit number") {
 }
 
 TEST_CASE("no template") {
-    auto data = ExtractBits2(raw_data, 17);
+    auto data = ExtractBitsNoTemplate(raw_data);
     REQUIRE(data.size() == 96);
     for (size_t i = 0; i != 96; ++i) {
         CHECK(data[i] == i);
@@ -54,7 +54,7 @@ TEST_CASE("array") {
 
 TEST_CASE("pointers") {
     std::vector<int> data(96, 0);
-    ExtractBits(raw_data.data(), data.data());
+    ExtractBitsPointer(raw_data.data(), data.data());
     REQUIRE(data.size() == 96);
     for (size_t i = 0; i != 96; ++i) {
         CHECK(data[i] == i);

@@ -3,6 +3,7 @@
 set(TEST_SOURCES 
     test_main.cpp
     test_1bit.cpp
+    test_2bits.cpp
 )
 
 add_executable(tests ${TEST_SOURCES})

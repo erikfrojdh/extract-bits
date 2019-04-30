@@ -38,14 +38,12 @@ static void BM_TemplateOneBit(benchmark::State& state) {
 BENCHMARK(BM_TemplateOneBit);
 
 static void BM_NoTemplate(benchmark::State& state) {
-
   for (auto _ : state)
-    auto d = ExtractBits2(raw_data, 17);
+    auto d = ExtractBitsNoTemplate(raw_data, 17);
 }
 BENCHMARK(BM_NoTemplate);
 
 static void BM_NoTemplate_mem(benchmark::State& state) {
-
   for (auto _ : state)
     auto d = ExtractBits3(raw_data, 17);
 }
@@ -62,7 +60,7 @@ BENCHMARK(BM_AllTemplate_array);
 static void BM_pointers(benchmark::State& state) {
   std::vector<int> data(96,0);
   for (auto _ : state)
-    ExtractBits(raw_data.data(), data.data());
+    ExtractBitsPointer(raw_data.data(), data.data());
 }
 BENCHMARK(BM_pointers);
 

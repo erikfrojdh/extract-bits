@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.12)
 project(utils VERSION 0.0.1 LANGUAGES CXX)
 
+
+#Check if Link Time Optimization is supported
+include(CheckIPOSupported)
+
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
 if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -23,8 +27,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-DNDEBUG")
 add_library(project_options INTERFACE)
 add_library(project_warnings INTERFACE)
 
-add_library(utils INTERFACE)
-target_include_directories(utils INTERFACE include)
+
 
 target_compile_features(project_options INTERFACE
   cxx_std_11
@@ -59,7 +62,21 @@ INTERFACE -Wall
                      # output (ie printf)
 )
 
+add_library(utils STATIC 
+  src/ReadData.cpp
+  src/ExtractBits.cpp
+)
 
+target_include_directories(utils PUBLIC include)
+target_link_libraries(utils PUBLIC 
+  project_options
+  project_warnings
+)
+
+check_ipo_supported(RESULT result)
+if(result)
+    set_property(TARGET utils PROPERTY INTERPROCEDURAL_OPTIMIZATION True)
+endif()
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)

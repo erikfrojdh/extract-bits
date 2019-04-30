@@ -6,6 +6,11 @@ target_link_libraries(bench PRIVATE
     utils 
     benchmark)
 
+    check_ipo_supported(RESULT result)
+    if(result)
+        set_property(TARGET bench PROPERTY INTERPROCEDURAL_OPTIMIZATION True)
+    endif()
+
 set_target_properties(bench PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
 )
