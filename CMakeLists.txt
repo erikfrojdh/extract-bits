@@ -8,8 +8,8 @@ if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type (default Release)" FORCE)
 endif()
 
-option (UTILS_BUILD_TESTS "Build unit tests" ON)
-
+option (BUILD_TESTS "Build unit tests" ON)
+option (BUILD_BENCHMARKS "Build benchmarks" ON)
 
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
@@ -32,8 +32,8 @@ target_compile_features(project_options INTERFACE
 
 target_compile_options(project_options INTERFACE 
     -O3
-    # -mtune=native
-    # -march=native
+    -mtune=native
+    -march=native
 )
 
 target_compile_options(project_warnings
@@ -65,13 +65,14 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 find_package(benchmark)
 
-if(UTILS_BUILD_TESTS)
+if(BUILD_TESTS)
   enable_testing()
-  add_subdirectory(tests)
-endif(UTILS_BUILD_TESTS)
+  add_subdirectory(test)
+endif(BUILD_TESTS)
 
 add_executable(a app/main.cpp)
 target_link_libraries(a PRIVATE project_options project_warnings Threads::Threads utils benchmark)
 
-add_executable(b benchmarks/bm.cpp)
-target_link_libraries(b PRIVATE project_options project_warnings Threads::Threads utils benchmark)
+if(BUILD_BENCHMARKS) 
+  add_subdirectory(benchmarks)
+endif(BUILD_BENCHMARKS)

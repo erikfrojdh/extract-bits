@@ -3,6 +3,7 @@
 #include "ReadData.h"
 
 static std::vector<uint64_t> raw_data = ReadData("data/single.bin");
+static std::array<uint64_t, 2304> raw_data_arr = ReadDataArray("data/single.bin");
 
 std::vector<uint64_t> getVector(){
   std::vector<uint64_t> v(96);
@@ -49,5 +50,12 @@ static void BM_NoTemplate_mem(benchmark::State& state) {
     auto d = ExtractBits3(raw_data, 17);
 }
 BENCHMARK(BM_NoTemplate_mem);
+
+static void BM_AllTemplate_array(benchmark::State& state) {
+
+  for (auto _ : state)
+    auto d = ExtractBits4<17,24>(raw_data_arr);
+}
+BENCHMARK(BM_AllTemplate_array);
 
 BENCHMARK_MAIN();

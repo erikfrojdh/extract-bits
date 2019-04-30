@@ -8,18 +8,19 @@ set(SLS_TEST_SOURCES
     test_1bit.cpp
 )
 
-add_executable(t ${SLS_TEST_SOURCES})
-target_link_libraries(t 
+add_executable(tests ${SLS_TEST_SOURCES})
+target_link_libraries(tests 
     project_options
     project_warnings
     utils
 )  
-set_target_properties(t PROPERTIES
+set_target_properties(tests PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
     )
 
-# configure_file(data/single.bin ${CMAKE_BINARY_DIR}/data/single.bin)
+#Copy data from source tree to build folder for running tests
 configure_file(data/single.bin ${CMAKE_BINARY_DIR}/data/single.bin COPYONLY)
-# include(CTest)
-# include(Catch)
-# catch_discover_tests(tests)
+
+include(CTest)
+include(Catch)
+catch_discover_tests(tests)
