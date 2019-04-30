@@ -27,9 +27,9 @@ int main() {
     // auto raw_data = ReadData("data/single.bin");
     // print(raw_data);
 
-    // std::cout << "\n\n";
-    // auto data = ExtractBits<17, 24>(raw_data);
-    // print(data);
+    std::cout << "\n\n";
+    auto data = ExtractBitsSerial(raw_data, {17, 6});
+    print(data);
 
     // std::cout << "\n\n";
     // auto data1 = ExtractBits1<17>(raw_data);

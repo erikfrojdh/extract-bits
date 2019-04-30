@@ -64,4 +64,46 @@ static void BM_pointers(benchmark::State& state) {
 }
 BENCHMARK(BM_pointers);
 
+static void BM_ExtractTwoBitsTemplate(benchmark::State& state) {
+  std::vector<int> data(96,0);
+  for (auto _ : state)
+    ExtractTwoBitsTemplate<17,6>(raw_data);
+}
+BENCHMARK(BM_ExtractTwoBitsTemplate);
+
+static void BM_ExtractTwoBits(benchmark::State& state) {
+  std::vector<int> data(96,0);
+  for (auto _ : state)
+    ExtractTwoBits(raw_data, 17,6);
+}
+BENCHMARK(BM_ExtractTwoBits);
+
+static void BM_ExtractBitsSerial(benchmark::State& state) {
+  std::vector<int> data(96,0);
+  for (auto _ : state)
+    ExtractBitsSerial(raw_data, {17,6});
+}
+BENCHMARK(BM_ExtractBitsSerial);
+
+static void BM_ExtractBitsSerialArray(benchmark::State& state) {
+  std::vector<int> data(96,0);
+  for (auto _ : state)
+    ExtractBitsSerialArray<2>(raw_data, {17,6});
+}
+BENCHMARK(BM_ExtractBitsSerialArray);
+
+static void BM_ExtractBitsSerialComposed(benchmark::State& state) {
+  std::vector<int> data(96,0);
+  for (auto _ : state)
+    ExtractBitsSerialComposed(raw_data, {17,6});
+}
+BENCHMARK(BM_ExtractBitsSerialComposed);
+
+static void BM_ExtractBitsVector(benchmark::State& state) {
+  std::vector<int> data(96,0);
+  for (auto _ : state)
+    ExtractBitsVector(raw_data, {17,6});
+}
+BENCHMARK(BM_ExtractBitsVector);
+
 BENCHMARK_MAIN();
