@@ -10,7 +10,7 @@ std::vector<uint64_t> ReadData(const std::string &fname) {
         is.read(reinterpret_cast<char *>(data.data()), 2304 * 8);
         return data;
     }else{
-        throw 1;
+        return {};
     }
 }
 
@@ -22,6 +22,6 @@ std::array<uint64_t, 2304> ReadDataArray(const std::string &fname) {
         is.read(reinterpret_cast<char *>(data.data()), 2304 * 8);
         return data;
     }else{
-        throw 1;
+        return {};
     }
 }

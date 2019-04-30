@@ -1,6 +1,6 @@
 #include "ExtractBits.h"
 #include "ReadData.h"
-#include "catch.hpp"
+#include "catch2/catch.hpp"
 
 auto raw_data = ReadData("data/single.bin");
 auto raw_data_arr = ReadDataArray("data/single.bin");

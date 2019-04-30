@@ -66,7 +66,7 @@ find_package(Threads REQUIRED)
 find_package(benchmark)
 
 if(BUILD_TESTS)
-  enable_testing()
+  add_subdirectory(lib/Catch2)
   add_subdirectory(test)
 endif(BUILD_TESTS)
 

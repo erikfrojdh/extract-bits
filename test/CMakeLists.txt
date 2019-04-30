@@ -1,15 +1,15 @@
-include_directories(
-    ${PROJECT_SOURCE_DIR}/catch
-    include
-)
 
-set(SLS_TEST_SOURCES 
+
+set(TEST_SOURCES 
     test_main.cpp
     test_1bit.cpp
 )
 
-add_executable(tests ${SLS_TEST_SOURCES})
+add_executable(tests ${TEST_SOURCES})
+
+
 target_link_libraries(tests 
+    Catch2::Catch2
     project_options
     project_warnings
     utils
