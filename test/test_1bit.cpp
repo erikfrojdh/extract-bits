@@ -51,3 +51,12 @@ TEST_CASE("array") {
         CHECK(data[i] == i);
     }
 }
+
+TEST_CASE("pointers") {
+    std::vector<int> data(96, 0);
+    ExtractBits(raw_data.data(), data.data());
+    REQUIRE(data.size() == 96);
+    for (size_t i = 0; i != 96; ++i) {
+        CHECK(data[i] == i);
+    }
+}

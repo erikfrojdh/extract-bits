@@ -58,4 +58,12 @@ static void BM_AllTemplate_array(benchmark::State& state) {
 }
 BENCHMARK(BM_AllTemplate_array);
 
+
+static void BM_pointers(benchmark::State& state) {
+  std::vector<int> data(96,0);
+  for (auto _ : state)
+    ExtractBits(raw_data.data(), data.data());
+}
+BENCHMARK(BM_pointers);
+
 BENCHMARK_MAIN();
