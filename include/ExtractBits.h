@@ -1,9 +1,14 @@
 #include <algorithm>
+#include <array>
 #include <iostream>
 #include <random>
 #include <vector>
-#include <array>
 
+/**
+ * Templated on both the bit index and the dynamic range
+ * to give the compiler as much information as possible
+ * Downsize is that syntax is not so clear
+ */
 template <size_t bit_index, size_t dr>
 std::vector<int> ExtractBits(const std::vector<uint64_t> &data) {
     constexpr uint64_t mask = (1u << bit_index);
@@ -19,18 +24,15 @@ std::vector<int> ExtractBits(const std::vector<uint64_t> &data) {
     return result;
 }
 
-
-
 template <size_t bit_index>
 std::vector<int> ExtractBits1(const std::vector<uint64_t> &data,
                               unsigned dr = 24) {
-    constexpr uint64_t mask = (1u << bit_index);
     const size_t NumCompleteSamples = data.size() / dr;
     std::vector<int> result(NumCompleteSamples);
     auto ptr = data.data();
     for (auto &r : result) {
         for (unsigned i = 0; i != dr; ++i) {
-            auto bit = static_cast<int>((*ptr++ & mask) >> bit_index);
+            auto bit = static_cast<int>((*ptr++ >> bit_index) & 1u);
             r |= bit << i;
         }
     }
@@ -39,14 +41,12 @@ std::vector<int> ExtractBits1(const std::vector<uint64_t> &data,
 
 std::vector<int> ExtractBits2(const std::vector<uint64_t> &data,
                               size_t bit_index = 12, size_t dr = 24) {
-    uint64_t mask = (1u << bit_index);
     const size_t NumCompleteSamples = data.size() / dr;
     std::vector<int> result(NumCompleteSamples);
     auto ptr = data.data();
     for (auto &r : result) {
         for (size_t i = 0; i != dr; ++i) {
-            auto bit = static_cast<int>((*ptr++ & mask) >> bit_index);
-            // auto bit = static_cast<int>((*ptr++ >> bit_index) & 1u);
+            auto bit = static_cast<int>((*ptr++ >> bit_index) & 1u);
             r |= bit << i;
         }
     }
@@ -55,7 +55,6 @@ std::vector<int> ExtractBits2(const std::vector<uint64_t> &data,
 
 std::vector<int> ExtractBits3(std::vector<uint64_t> data, size_t bit_index = 12,
                               size_t dr = 24) {
-    uint64_t mask = (1u << bit_index);
     const size_t NumCompleteSamples = data.size() / dr;
     std::vector<int> result(NumCompleteSamples);
     auto ptr = data.data();
@@ -72,16 +71,15 @@ std::vector<int> ExtractBits3(std::vector<uint64_t> data, size_t bit_index = 12,
     return result;
 }
 
-
 constexpr size_t data_size = 3 * 32;
 template <size_t bit_index, size_t dr>
-std::array<int, data_size> ExtractBits4(const std::array<uint64_t, 2304> &data) {
-    constexpr uint64_t mask = (1u << bit_index);
+std::array<int, data_size>
+ExtractBits4(const std::array<uint64_t, 2304> &data) {
     std::array<int, data_size> result{};
     auto ptr = data.data();
     for (auto &r : result) {
         for (size_t i = 0; i != dr; ++i) {
-            int bit = static_cast<int>((*ptr++ & mask) >> bit_index);
+            auto bit = static_cast<int>((*ptr++ >> bit_index) & 1u);
             r |= bit << i;
         }
     }
