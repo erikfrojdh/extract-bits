@@ -46,7 +46,7 @@ std::vector<int> ExtractBits2(const std::vector<uint64_t> &data,
     auto ptr = data.data();
     for (auto &r : result) {
         for (size_t i = 0; i != dr; ++i) {
-            auto bit = static_cast<int>((*ptr++ >> bit_index) & 1u);
+            auto bit = static_cast<int>((*ptr++ >> bit_index) & 1);
             r |= bit << i;
         }
     }
@@ -61,7 +61,7 @@ std::vector<int> ExtractBits3(std::vector<uint64_t> data, size_t bit_index = 12,
 
     std::transform(
         begin(data), end(data), begin(data),
-        [mask, bit_index](uint64_t x) { return (x & mask) >> bit_index; });
+        [bit_index](uint64_t x) { return (x >> bit_index) & 1; });
 
     for (auto &r : result) {
         for (size_t i = 0; i != dr; ++i) {
